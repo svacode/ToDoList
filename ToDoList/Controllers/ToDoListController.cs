@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Data;
 
 namespace ToDoList.Controllers
 {
@@ -7,6 +8,10 @@ namespace ToDoList.Controllers
     [ApiController]
     public class ToDoListController : ControllerBase
     {
-
+        private readonly DataContext _dataContext;
+        public ToDoListController(DataContext context)
+        {
+            _dataContext = context;
+        }
     }
 }
