@@ -4,8 +4,8 @@
     {
 
         public int Id { get; set; }
-        public string Timeline { get; set; } = string.Empty;
-        public string One { get; set; } = string.Empty;
+        public required string Timeline { get; set; } 
+        public required string One { get; set; } 
 
         public string Two { get; set; } = string.Empty ;
 

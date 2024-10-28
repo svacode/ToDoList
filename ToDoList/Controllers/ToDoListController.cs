@@ -22,12 +22,27 @@ namespace ToDoList.Controllers
             var notes = await _dataContext.ToDos.ToListAsync();
             return Ok(notes);
         }
-        [HttpGet("{Timeline}")]
-        public async Task<ActionResult<List<ToDo>>> SeeOneList(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ToDo>> SeeOneList(int id)
         {
             var notes = await _dataContext.ToDos.FindAsync(id);
+            if (notes == null)
+            {
+                return BadRequest("Not Found");
+            }
             return Ok(notes);
+
         }
+
+        [HttpPost]
+        public async Task<ActionResult<List<ToDo>>> AddList(ToDo list)
+        {
+            await _dataContext.ToDos.AddAsync(list);
+            _dataContext.SaveChanges();
+            return Ok(await _dataContext.ToDos.ToListAsync());
+
+        }
+
     }
 
 
