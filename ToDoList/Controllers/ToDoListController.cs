@@ -60,6 +60,16 @@ namespace ToDoList.Controllers
             _dataContext.SaveChanges();
             return Ok(dbList);
         }
+        [HttpDelete]
+        public async Task<ActionResult<List<ToDo>>> DeleteList(int id)
+        {
+            var dbList = await _dataContext.ToDos.FindAsync(id);
+            if (dbList == null)
+                return BadRequest("Not Found");
+            _dataContext.ToDos.Remove(dbList);
+            _dataContext.SaveChanges();
+            return Ok(await _dataContext.ToDos.ToListAsync());
+        }
     }
 
 
