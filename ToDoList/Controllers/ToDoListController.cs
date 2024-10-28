@@ -42,7 +42,24 @@ namespace ToDoList.Controllers
             return Ok(await _dataContext.ToDos.ToListAsync());
 
         }
-
+        [HttpPut]
+        public async Task<ActionResult<List<ToDo>>> ChangeList(ToDo updatedList)
+        {
+            var dbList = await _dataContext.ToDos.FindAsync(updatedList.Id);
+            if (dbList == null)
+                return BadRequest("Not Found");
+            dbList.Timeline = updatedList.Timeline;
+            dbList.One = updatedList.One;
+            dbList.Two = updatedList.Two;
+            dbList.Three = updatedList.Three;
+            dbList.Four = updatedList.Four;
+            dbList.Five = updatedList.Five;
+            dbList.Six = updatedList.Six;
+            dbList.Seven = updatedList.Seven;
+            dbList.Eight = updatedList.Eight;
+            _dataContext.SaveChanges();
+            return Ok(dbList);
+        }
     }
 
 
