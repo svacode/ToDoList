@@ -15,7 +15,7 @@ namespace ToDoList.Entities
 
         public string Deadline { get; set; } = string.Empty;
 
-        public bool Done;
+        public bool? Done { get; set; }
 
 
         

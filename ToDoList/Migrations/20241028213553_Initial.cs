@@ -17,7 +17,11 @@ namespace ToDoList.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Timeline = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Header = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TimeToFinish = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deadline = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Done = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -34,6 +34,7 @@ namespace ToDoList.Controllers
 
         }
 
+
         [HttpPost]
         public async Task<ActionResult<List<ToDo>>> AddList(ToDo list)
         {
@@ -49,14 +50,12 @@ namespace ToDoList.Controllers
             if (dbList == null)
                 return BadRequest("Not Found");
             dbList.Timeline = updatedList.Timeline;
-            dbList.One = updatedList.One;
-            dbList.Two = updatedList.Two;
-            dbList.Three = updatedList.Three;
-            dbList.Four = updatedList.Four;
-            dbList.Five = updatedList.Five;
-            dbList.Six = updatedList.Six;
-            dbList.Seven = updatedList.Seven;
-            dbList.Eight = updatedList.Eight;
+            dbList.Header = updatedList.Header;
+            dbList.Description = updatedList.Description;
+            dbList.TimeToFinish = updatedList.TimeToFinish;
+            dbList.Deadline = updatedList.Deadline;
+            dbList.Done = updatedList.Done;
+            
             _dataContext.SaveChanges();
             return Ok(dbList);
         }
@@ -69,6 +68,16 @@ namespace ToDoList.Controllers
             _dataContext.ToDos.Remove(dbList);
             _dataContext.SaveChanges();
             return Ok(await _dataContext.ToDos.ToListAsync());
+        }
+        [HttpGet("time/{timeline}")]
+        public async Task<ActionResult<List<ToDo>>> GetListByDay(string timeline)
+        {
+            var notes = await _dataContext.ToDos
+                                          .Where(ToDo => ToDo.Timeline == timeline)
+                                          .ToListAsync();
+            if (notes.Count == 0)
+                return BadRequest("Not Found");
+                return Ok(notes);
         }
     }
 
