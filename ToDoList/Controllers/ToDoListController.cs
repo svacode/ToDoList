@@ -43,10 +43,10 @@ namespace ToDoList.Controllers
             return Ok(await _dataContext.ToDos.ToListAsync());
 
         }
-        [HttpPut]
-        public async Task<ActionResult<List<ToDo>>> ChangeList(ToDo updatedList)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<ToDo>>> ChangeList(int id,  ToDo updatedList)
         {
-            var dbList = await _dataContext.ToDos.FindAsync(updatedList.Id);
+            var dbList = await _dataContext.ToDos.FindAsync(id);
             if (dbList == null)
                 return BadRequest("Not Found");
             dbList.Timeline = updatedList.Timeline;
