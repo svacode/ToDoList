@@ -43,7 +43,7 @@ namespace ToDoList.Controllers
             return Ok(await _dataContext.ToDos.ToListAsync());
 
         }
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<List<ToDo>>> ChangeList(int id,  ToDo updatedList)
         {
             var dbList = await _dataContext.ToDos.FindAsync(id);
