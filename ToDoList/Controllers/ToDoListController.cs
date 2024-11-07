@@ -34,6 +34,38 @@ namespace ToDoList.Controllers
 
         }
 
+        [HttpGet("time/{timeline}")]
+        public async Task<ActionResult<List<ToDo>>> GetListByDay(string timeline)
+        {
+            var notes = await _dataContext.ToDos
+                                          .Where(ToDo => ToDo.Timeline == timeline)
+                                          .ToListAsync();
+            if (notes.Count == 0)
+                return BadRequest("Not Found");
+            return Ok(notes);
+        }
+
+        [HttpGet("Done")]
+        public async Task<ActionResult<List<ToDo>>> GetDoneTasks(bool done)
+        {
+            var notes = await _dataContext.ToDos
+                                          .Where(ToDo => ToDo.Done == true)
+                                          .ToListAsync();
+            if (notes.Count == 0)
+                return BadRequest("Not Found");
+            return Ok(notes);
+        }
+        [HttpGet("Not Done")]
+        public async Task<ActionResult<List<ToDo>>> GetUndoneTasks(bool done)
+        {
+            var notes = await _dataContext.ToDos
+                                          .Where(ToDo => ToDo.Done == false)
+                                          .ToListAsync();
+            if (notes.Count == 0)
+                return BadRequest("Not Found");
+            return Ok(notes);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<List<ToDo>>> AddList(ToDo list)
@@ -69,16 +101,8 @@ namespace ToDoList.Controllers
             _dataContext.SaveChanges();
             return Ok(await _dataContext.ToDos.ToListAsync());
         }
-        [HttpGet("time/{timeline}")]
-        public async Task<ActionResult<List<ToDo>>> GetListByDay(string timeline)
-        {
-            var notes = await _dataContext.ToDos
-                                          .Where(ToDo => ToDo.Timeline == timeline)
-                                          .ToListAsync();
-            if (notes.Count == 0)
-                return BadRequest("Not Found");
-                return Ok(notes);
-        }
+        
+
     }
 
 
