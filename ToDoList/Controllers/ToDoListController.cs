@@ -66,10 +66,22 @@ namespace ToDoList.Controllers
             return Ok(notes);
         }
 
+        [HttpGet("Priority level")]
+        public async Task<ActionResult<List<ToDo>>> FilterByPriority(Priority priorityLevel)
+        {
+            var notes = await _dataContext.ToDos
+                                                .Where(ToDo => ToDo.Priority == priorityLevel)
+                                                .ToListAsync();
+            if (notes.Count == 0)
+                return BadRequest("Not found");
+            return Ok(notes);
+        }
 
         [HttpPost]
         public async Task<ActionResult<List<ToDo>>> AddList(ToDo list)
         {
+            if (!Enum.IsDefined(typeof(Priority), list.Priority))
+                return BadRequest("Invalid priority level. Use Low, Medium or High");
             await _dataContext.ToDos.AddAsync(list);
             _dataContext.SaveChanges();
             return Ok(await _dataContext.ToDos.ToListAsync());
@@ -78,6 +90,7 @@ namespace ToDoList.Controllers
         [HttpPut]
         public async Task<ActionResult<List<ToDo>>> ChangeList(int id,  ToDo updatedList)
         {
+
             var dbList = await _dataContext.ToDos.FindAsync(id);
             if (dbList == null)
                 return BadRequest("Not Found");
@@ -87,7 +100,9 @@ namespace ToDoList.Controllers
             dbList.TimeToFinish = updatedList.TimeToFinish;
             dbList.Deadline = updatedList.Deadline;
             dbList.Done = updatedList.Done;
-            
+            dbList.Priority = updatedList.Priority;
+            if (!Enum.IsDefined(typeof(Priority), updatedList.Priority))
+                return BadRequest("Invalid priority level. Use Low, Medium or High");
             _dataContext.SaveChanges();
             return Ok(dbList);
         }

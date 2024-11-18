@@ -17,8 +17,16 @@ namespace ToDoList.Entities
 
         public bool? Done { get; set; }
 
+        public Priority Priority { get; set; }
+
 
         
 
+    }
+    public enum Priority
+    {
+        Low = 1,
+        Medium = 2,
+        High = 3
     }
 }
